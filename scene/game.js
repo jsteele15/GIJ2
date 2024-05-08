@@ -1,6 +1,8 @@
-import Phaser from '../lib/phaser.js'
-import { Setting } from './settings.js'
+import Phaser from '../lib/phaser.js';
+import { Setting } from './settings.js';
 import { loadLevel } from './level.js';
+import { Player } from './character.js';
+
 
 
 export default class Game extends Phaser.Scene{
@@ -8,6 +10,7 @@ export default class Game extends Phaser.Scene{
         super('game')
         //this will be the central place where all the game settings come from
         this.gameSetting = new Setting;
+        this.player = new Player;
     }
 
     preload(){
@@ -25,6 +28,11 @@ export default class Game extends Phaser.Scene{
     }
 
     create(){
+        //for the buttons
+        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+        this.d = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+        this.a = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+
         //this creates the platform group
         this.platform = this.physics.add.staticGroup()
         
@@ -42,6 +50,9 @@ export default class Game extends Phaser.Scene{
     }
 
     update(){
+        //this moves the cat
+        this.moveButtons()
+
         //this will change what maps generated
         if(this.gameSetting.cur_level === 'tutorial'){
             loadLevel(this.gameSetting.tutorial_lv, this.platform)
@@ -63,5 +74,23 @@ export default class Game extends Phaser.Scene{
     changeLevel(){
         this.gameSetting.lv_ind += 1
         this.gameSetting.cur_level = this.gameSetting.lv_list[this.gameSetting.lv_ind]
+    }
+
+    moveButtons(){
+        if(this.spaceBar.isDown){
+            this.player.jump(this.cat)
+        }
+
+        if(this.a.isDown){
+            console.log("a clicked")
+            this.player.move_dir(this.cat, 'left')
+        }
+        else if(this.d.isDown){
+            this.player.move_dir(this.cat, 'right')
+        }
+        else {
+            this.cat.setVelocityX(0)
+        }
+        
     }
 }

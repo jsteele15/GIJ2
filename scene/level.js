@@ -6,7 +6,7 @@ export const loadLevel = function(lv_map, platform){
     for(let r = 0; r < lv_map.length; r++){
         for(let c = 0; c < lv_map[0].length; c++){
             if(lv_map[r][c] == 1){
-                platform.create(0+64*c, 0+64*r, 'tiles', 15)
+                platform.create(32+64*c, 0+64*r, 'tiles', 15)
             }
         }
     }
