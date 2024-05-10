@@ -1,7 +1,10 @@
+
+
 export class Player{
     constructor(){
-        this.jumpHeight = 500
-        this.speed = 50
+        this.jumpHeight = 700
+        this.speed = 300
+        
     }
     jump(cat){
         if(cat.body.onFloor()){
@@ -17,5 +20,27 @@ export class Player{
             cat.setVelocityX(+this.speed)
         }
         
+    }
+
+    ghost_mode(cat){
+        if(cat.alive === false){
+            cat.setVelocityY(-1000)
+            cat.setTexture('cat', 15) 
+            
+        }
+        
+    }
+
+    dies(cat, deadly){
+        cat.alive = false
+        
+    }
+
+    reset(cat){
+        cat.alive = true
+        cat.x = 30
+        cat.y = 64
+        cat.setVelocityY(+100)
+        cat.setTexture('cat', 1)
     }
 }
